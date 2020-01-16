@@ -19,6 +19,8 @@ public class Client {
             ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
 
+            Gameplay gamePlay = new Gameplay();
+
             GameData gameData = (GameData) objectInputStream.readObject();
 
             System.out.println("Boundaries: " + gameData.windowBoundaries[0] +
@@ -27,11 +29,7 @@ public class Client {
                     gameData.windowBoundaries[3]);
 
             JFrame window = new JFrame();
-            window.setBounds(gameData.windowBoundaries[0],
-                    gameData.windowBoundaries[1],
-                    gameData.windowBoundaries[2],
-                    gameData.windowBoundaries[3]);
-            window.setVisible(true);
+            Display.setupMainWindow(window,gameData, gamePlay);
         } catch (IOException err) {
             System.out.println("Client exception: " + err.getMessage());
         } catch (ClassNotFoundException e) {

@@ -45,6 +45,7 @@ public class ClientHandler extends Thread {
                     System.out.println("Sending ravens!");
 
                     sendGameData(outputStream);
+                    break;
 
                     // output.println("Echo!");
                 }

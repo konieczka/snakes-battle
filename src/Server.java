@@ -3,7 +3,7 @@ import java.net.ServerSocket;
 
 public class Server {
     // Game settings
-    private Integer[] boundaries = {10, 10, 700, 700};
+    private Integer[] boundaries = {10, 10, 1000, 1000};
 
     // GameData setup
     public GameData gameData = new GameData(boundaries);
