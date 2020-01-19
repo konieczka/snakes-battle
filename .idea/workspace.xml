@@ -2,18 +2,25 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6e7a3191-327e-45d8-bcbb-34419646f56b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Display.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Gameplay.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/PositionRegistry.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Network.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/WezykiGame/Client.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/WezykiGame/Client.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/WezykiGame/ClientHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/WezykiGame/ClientHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WezykiGame.iml" beforeDir="false" afterPath="$PROJECT_DIR$/WezykiGame.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/WezykiGame/Client.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/WezykiGame/ClientHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/WezykiGame/Display.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/WezykiGame/Display.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/WezykiGame/GameData.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/WezykiGame/GameData.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/WezykiGame/Server.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/WezykiGame/Server.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ClientHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/WezykiGame/Gameplay.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/WezykiGame/Gameplay.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/WezykiGame/PositionRegistry.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/WezykiGame/PositionRegistry.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/WezykiGame/Server.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/WezykiGame/cNotification.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Client.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ClientHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Display.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Display.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GameData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Gameplay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Gameplay.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PositionRegistry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PositionRegistry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Server.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/cNotification.java" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -34,10 +41,17 @@
   <component name="ProjectId" id="1WTmGwg0QI66NGO23gglZ4lz5Hv" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
-    <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Documents/jabba/kryonet-2.21/jars/production/onejar/kryonet-2.21-all.jar!/" />
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
     <property name="restartRequiresConfirmation" value="false" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -51,16 +65,16 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Client">
-    <configuration name="Client" type="Application" factoryName="Application" singleton="false" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Client" />
+  <component name="RunManager" selected="Application.GameClient">
+    <configuration name="GameClient" type="Application" factoryName="Application" singleton="false" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="GameClient" />
       <module name="WezykiGame" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Server" type="Application" factoryName="Application" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Server" />
+    <configuration name="GameServer" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="GameServer" />
       <module name="WezykiGame" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -73,8 +87,8 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.Server" />
-      <item itemvalue="Application.Client" />
+      <item itemvalue="Application.GameServer" />
+      <item itemvalue="Application.GameClient" />
     </list>
   </component>
   <component name="SvnConfiguration">
@@ -95,7 +109,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>

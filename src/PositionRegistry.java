@@ -1,8 +1,8 @@
 public class PositionRegistry {
-    public double X;
-    public double Y;
+    public float X;
+    public float Y;
 
-    public PositionRegistry(double x, double y) {
+    public PositionRegistry(float x, float y) {
         X = x;
         Y = y;
     }

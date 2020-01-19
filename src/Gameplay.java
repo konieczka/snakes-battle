@@ -10,32 +10,54 @@ import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 
 public class Gameplay extends JPanel implements KeyListener, ActionListener {
-    public Timer gameClock = new Timer(8, this);
+    public Timer gameClock = new Timer(10, this);
     private Boolean play = false;
-    private double speed = 1;
-    private double direction = 1;
-    private double playerX = 200;
-    private double playerY = 900;
+
+    private float speed = 2;
+    private float direction = 1;
+    private float directionChangeRate = 5;
+
+    public float playerX;
+    public float playerY;
+
+    private int selfPlayerId;
     private java.util.List<PositionRegistry> playerPositionsList = new ArrayList<PositionRegistry>();
 
+    private GameData serverData;
 
-    public Gameplay() {
+
+    public Gameplay(float x, float y) {
         addKeyListener(this);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
+        playerX = x;
+        playerY = y;
+    }
+
+    public void startTheGame() {
         gameClock.start();
         play = true;
     }
 
-    private void collisionChecker() {
-        if (playerPositionsList.size() > 0) {
-            for (PositionRegistry temp : playerPositionsList) {
-                if (Math.abs(temp.X - playerX) <= 1 && Math.abs(temp.Y - playerY) <= 1){
+    private void screenCollisionChecker() {
+        if (playerX > 1000 || playerX < 0) {
+            System.out.println("OUT OF SCREEN");
+        }
+        if (playerY > 1000 || playerY < 0) {
+            System.out.println("OUT OF SCREEN");
+        }
+    }
+
+    private void selfCollisionChecker() {
+        if (playerPositionsList.size() > 10) {
+            for (PositionRegistry temp : playerPositionsList.subList(0, playerPositionsList.size() - 10)) {
+                if (Math.abs(temp.X - playerX) <= 5 && Math.abs(temp.Y - playerY) <= 5) {
                     System.out.println("COLLISION");
                 }
             }
         }
     }
+
 
     private void movement() {
         if (direction > 0 && direction <= 90) {
@@ -51,7 +73,10 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
             playerX -= speed * ((90 - (direction % 90)) / 90);
             playerY -= speed * ((direction % 90) / 90);
         }
-        playerPositionsList.add(new PositionRegistry(playerX, playerY));
+//        playerPositionsList.add(new PositionRegistry(playerX, playerY));
+//        if (playerPositionsList.size() > 700) {
+//            playerPositionsList = playerPositionsList.subList(playerPositionsList.size() - 700, playerPositionsList.size());
+//        }
     }
 
     public void paint(Graphics g) {
@@ -84,10 +109,10 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            direction += 1;
+            direction += directionChangeRate;
         }
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            direction -= 1;
+            direction -= directionChangeRate;
         }
         if (direction > 360) {
             direction = 0;
@@ -112,8 +137,10 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
         gameClock.start();
         if (play) {
             movement();
-            collisionChecker();
+            selfCollisionChecker();
+            screenCollisionChecker();
         }
+
         repaint();
     }
 
