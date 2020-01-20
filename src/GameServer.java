@@ -33,7 +33,7 @@ public class GameServer {
         Network.register(server);
 
         server.addListener(new Listener() {
-            public void received(Connection c, Object object) {
+            public synchronized void received(Connection c, Object object) {
                 // We know all connections for this server are actually SnakeConnections.
                 SnakeConnection connection = (SnakeConnection) c;
                 Snake character = connection.character;
@@ -58,20 +58,21 @@ public class GameServer {
                     }
 
                     character = loadSnake(name);
+
+                    // Reject if couldn't load character.
+                    if (character == null) {
+                        c.sendTCP(new Network.RegistrationRequired());
+                        return;
+                    }
+
+
                     if (colorOffset > 3) {
                         colorOffset = 0;
                     }
-                    System.out.println("Offsets:" + colorOffset + " " + character.colorIndex);
                     character.colorIndex = colorOffset;
                     character.x = playerStartingLocation[character.colorIndex][0];
                     character.y = playerStartingLocation[character.colorIndex][1];
                     colorOffset += 1;
-
-                    // Reject if couldn't load character.
-                    if (character == null) {
-                        c.sendUDP(new Network.RegistrationRequired());
-                        return;
-                    }
 
                     loggedIn(connection, character);
                     return;
@@ -95,14 +96,16 @@ public class GameServer {
                         return;
                     }
 
+                    character = new Snake();
+
+                    character.name = register.name;
+
                     if (colorOffset > 3) {
                         colorOffset = 0;
                     }
-                    character = new Snake();
-                    character.name = register.name;
                     character.colorIndex = colorOffset;
-                    character.x = playerStartingLocation[colorOffset][0];
-                    character.y = playerStartingLocation[colorOffset][1];
+                    character.x = playerStartingLocation[character.colorIndex][0];
+                    character.y = playerStartingLocation[character.colorIndex][1];
                     colorOffset += 1;
 
                     if (!saveSnake(character)) {
@@ -129,12 +132,59 @@ public class GameServer {
                     }
 
                     Network.UpdateSnake update = new Network.UpdateSnake();
+                    if (character.dead == 0) {
+                        update.id = character.id;
+                        update.x = character.x;
+                        update.y = character.y;
+                        update.ded = character.dead;
+                        server.sendToAllTCP(update);
+                    }
+
+                    return;
+                }
+
+                if (object instanceof Network.LastSafePosition) {
+                    // Ignore if not logged in.
+                    if (character == null) return;
+
+                    Network.LastSafePosition msg = (Network.LastSafePosition) object;
+
+                    System.out.println("Received last safe position: " + msg.x + "; " + msg.y + " for player " + character.name);
+                    character.x = msg.x;
+                    character.y = msg.y;
+                    if (!saveSnake(character)) {
+                        connection.close();
+                        return;
+                    }
+
+                    Network.UpdateSnake update = new Network.UpdateSnake();
                     update.id = character.id;
                     update.x = character.x;
                     update.y = character.y;
-                    ;
+                    update.ded = character.dead;
 
-                    server.sendToAllUDP(update);
+                    server.sendToAllTCP(update);
+                    return;
+                }
+
+                if (object instanceof Network.SnakeDed) {
+                    if (character == null) return;
+                    Network.SnakeDed msg = (Network.SnakeDed) object;
+                    character.dead = msg.ded;
+
+                    if (!saveSnake(character)) {
+                        connection.close();
+                        return;
+                    }
+
+                    Network.UpdateSnake update = new Network.UpdateSnake();
+                    update.id = character.id;
+                    update.x = character.x;
+                    update.y = character.y;
+                    update.ded = character.dead;
+
+
+                    server.sendToAllTCP(update);
                     return;
                 }
             }
@@ -153,7 +203,7 @@ public class GameServer {
 
                     Network.RemoveSnake removeSnake = new Network.RemoveSnake();
                     removeSnake.id = connection.character.id;
-                    server.sendToAllUDP(removeSnake);
+                    server.sendToAllTCP(removeSnake);
                 }
             }
         });
@@ -168,7 +218,7 @@ public class GameServer {
         for (Snake other : loggedIn) {
             Network.AddSnake addSnake = new Network.AddSnake();
             addSnake.character = other;
-            c.sendUDP(addSnake);
+            c.sendTCP(addSnake);
         }
 
         loggedIn.add(character);
@@ -176,7 +226,7 @@ public class GameServer {
         // Add logged in character to all connections.
         Network.AddSnake addSnake = new Network.AddSnake();
         addSnake.character = character;
-        server.sendToAllUDP(addSnake);
+        server.sendToAllTCP(addSnake);
     }
 
     boolean saveSnake(Snake character) {

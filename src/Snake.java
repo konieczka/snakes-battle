@@ -5,4 +5,5 @@ public class Snake {
     public int id;
     public float x, y;
     public int colorIndex;
+    public int dead = 0;
 }

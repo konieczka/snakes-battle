@@ -38,7 +38,7 @@ public class GameClient {
                 if (object instanceof Network.RegistrationRequired) {
                     Network.Register register = new Network.Register();
                     register.name = name;
-                    client.sendUDP(register);
+                    client.sendTCP(register);
                 }
 
                 if (object instanceof Network.AddSnake) {
@@ -78,9 +78,11 @@ public class GameClient {
         name = ui.inputName();
         Network.Login login = new Network.Login();
         login.name = name;
-        client.sendUDP(login);
+        client.sendTCP(login);
         JFrame gameWindow = new JFrame();
         Display.setupMainWindow(gameWindow, ui);
+
+        ui.selfName = name;
         ui.initializeEventListeners();
         ui.gameClock.start();
 
@@ -90,25 +92,26 @@ public class GameClient {
 //            msg.x = ui.goX;
 //            msg.y = ui.goY;
 //
-//            if (msg != null) client.sendUDP(msg);
+//            if (msg != null) client.sendTCP(msg);
 //        }
     }
 
     static class UI extends JPanel implements KeyListener, ActionListener {
         HashMap<Integer, Snake> characters = new HashMap();
         HashMap<Integer, java.util.List<PositionRegistry>> playersPositionMap = new HashMap<>();
-        public Timer gameClock = new Timer(50, this);
+        public Timer gameClock = new Timer(60, this);
         public Client ref;
-        private float speed = 1;
+        private float speed = 2;
         private int direction = 0;
         private float directionChangeRate = 1;
 
         Boolean play = false;
         int roomSize = 2;
 
-        int selfId;
+        String selfName;
+        String statusInfo = "";
 
-        Color[] playerColors = new Color[]{Color.GREEN, Color.RED, Color.YELLOW, Color.ORANGE};
+        Color[] playerColors = new Color[]{Color.GREEN, Color.RED, Color.YELLOW, Color.BLUE};
 
 
         public void initializeEventListeners() {
@@ -132,9 +135,6 @@ public class GameClient {
         }
 
         public void addSnake(Snake character) {
-            if (characters.size() == 0) {
-                selfId = character.id;
-            }
             characters.put(character.id, character);
             playersPositionMap.put(character.id, new ArrayList<PositionRegistry>());
             System.out.println(character.name + " added at " + character.x + ", " + character.y);
@@ -146,8 +146,11 @@ public class GameClient {
             if (character == null) return;
             character.x = msg.x;
             character.y = msg.y;
+            character.dead = msg.ded;
+            if (character.name.equals(selfName)) {
+                // System.out.println("coords:" + character.x + "; " + character.y);
+            }
 
-            System.out.println(character.name + " moved to " + character.x + ", " + character.y);
         }
 
         public void removeSnake(int id) {
@@ -174,24 +177,53 @@ public class GameClient {
                     Ellipse2D.Double previousDraw = new Ellipse2D.Double(previousPosition.X, previousPosition.Y, 10, 10);
                     gg.draw(previousDraw);
                 }
-                playersPositionMap.get(character.id).add(new PositionRegistry(character.x, character.y));
-
-                Ellipse2D.Double player = new Ellipse2D.Double(character.x, character.y, 10, 10);
-
-                gg.draw(player);
+                if (character.dead == 0) {
+                    playersPositionMap.get(character.id).add(new PositionRegistry(character.x, character.y));
+                    Ellipse2D.Double player = new Ellipse2D.Double(character.x, character.y, 10, 10);
+                    if (character.name.equals(selfName)) {
+                        System.out.println("coords:" + character.x + "; " + character.y);
+                    }
+                    gg.draw(player);
+                }
             }
+
+            g.setColor(Color.WHITE);
+            gg.drawString(statusInfo, 400, 400);
+
 
             g.dispose();
         }
 
-        private boolean screenCollisionChecker() {
-            for (Snake character : characters.values()){
-                if (character.id != selfId){
-                    if (character.x > 800 || character.x < 0) {
-                        return true;
+        private boolean compensateDisruptions(int characterId) {
+            int disruptionCounter = 0;
+            Snake checkedSnake = characters.get(characterId);
+            if (playersPositionMap.get(characterId).size() > 6) {
+                java.util.List<PositionRegistry> temp = playersPositionMap.get(characterId).subList(playersPositionMap.get(characterId).size() - 5, playersPositionMap.get(characterId).size());
+                for (PositionRegistry previous : temp) {
+                    if (Math.abs(previous.X - checkedSnake.x) > 35 || Math.abs(previous.Y - checkedSnake.y) > 35) {
+                        disruptionCounter += 1;
+                        if (disruptionCounter > 4) {
+                            sendLastSafePosition(previous.X, previous.Y);
+                            return false;
+                        }
                     }
-                    if (character.y > 800 || character.y < 0) {
-                        return true;
+                }
+            }
+            return true;
+        }
+
+        private boolean screenCollisionChecker() {
+            for (Snake character : characters.values()) {
+                if (compensateDisruptions(character.id)) {
+                    if (character.name.equals(selfName)) {
+                        if (character.x > 800 || character.x < 0) {
+                            System.out.println("collision with screen" + character.x + ": " + character.y);
+                            return true;
+                        }
+                        if (character.y > 800 || character.y < 0) {
+                            System.out.println("collision with screen" + character.x + ": " + character.y);
+                            return true;
+                        }
                     }
                 }
             }
@@ -201,27 +233,49 @@ public class GameClient {
 
         private boolean snakesCollisionChecker() {
             for (Snake character : characters.values()) {
-                if (character.id == selfId) {
-                    if (playersPositionMap.get(character.id).size() > 10) {
-                        java.util.List<PositionRegistry> temp = playersPositionMap.get(character.id).subList(0, playersPositionMap.get(character.id).size() - 10);
-                        for (PositionRegistry previous : temp) {
-                            if (Math.abs(previous.X - character.x) <= 5 && Math.abs(previous.Y - character.y) <= 5) {
-                                System.out.println("COLLISION WITH SELF");
-                                return true;
+                if (compensateDisruptions(character.id)) {
+                    if (character.name.equals(selfName) && character.dead == 0) {
+                        if (playersPositionMap.get(character.id).size() > 40) {
+                            java.util.List<PositionRegistry> temp = playersPositionMap.get(character.id).subList(0, playersPositionMap.get(character.id).size() - 5);
+                            for (PositionRegistry previous : temp) {
+                                if (Math.abs(previous.X - character.x) <= 3 && Math.abs(previous.Y - character.y) <= 3) {
+                                    System.out.println("COLLISION WITH SELF");
+                                    return true;
+                                }
+                            }
+                        }
+                        for (Snake otherSnake : characters.values()) {
+                            if (!otherSnake.name.equals(selfName)) {
+                                for (PositionRegistry previous : playersPositionMap.get(otherSnake.id)) {
+                                    if (Math.abs(previous.X - character.x) <= 3 && Math.abs(previous.Y - character.y) <= 3) {
+                                        System.out.println("COLLISION WITH SOMEONE ELSE");
+                                        return true;
+                                    }
+                                }
                             }
                         }
                     }
-                } else {
-//                    for (PositionRegistry previous : playersPositionMap.get(character.id)) {
-//                        if (Math.abs(previous.X - character.x) <= 5 && Math.abs(previous.Y - character.y) <= 5) {
-//                            System.out.println("COLLISION WITH SOMEONE ELSE");
-//                            return true;
-//                        }
-//                    }
-                    continue;
                 }
             }
             return false;
+        }
+
+        private void checkForDead() {
+            int deadCounter = 0;
+
+            for (Snake snek : characters.values()) {
+                deadCounter += snek.dead;
+            }
+
+            if (deadCounter > 0) {
+                for (Snake snek : characters.values()) {
+                    if (snek.name.equals(selfName)) {
+                        if (snek.dead == 1) statusInfo = "You ded :/";
+                        else if (snek.dead == 0 && (deadCounter == roomSize - 1 || deadCounter == roomSize))
+                            statusInfo = "You won!";
+                    }
+                }
+            }
         }
 
         private void movement() {
@@ -258,8 +312,10 @@ public class GameClient {
             gameClock.start();
             if (play) {
                 movement();
-                screenCollisionChecker();
-                snakesCollisionChecker();
+                if (screenCollisionChecker() || snakesCollisionChecker()) {
+                    snekDied();
+                }
+                checkForDead();
                 repaint();
             }
 
@@ -270,13 +326,27 @@ public class GameClient {
 
         }
 
+        private void snekDied() {
+            Network.SnakeDed msg = new Network.SnakeDed();
+            msg.ded = 1;
+
+            if (msg != null) ref.sendTCP(msg);
+        }
+
         private void sendNewPosition(float x, float y) {
             Network.MoveSnake msg = new Network.MoveSnake();
-            System.out.println();
             msg.x = x;
             msg.y = y;
 
-            if (msg != null) ref.sendUDP(msg);
+            if (msg != null) ref.sendTCP(msg);
+        }
+
+        private void sendLastSafePosition(float x, float y) {
+            Network.LastSafePosition msg = new Network.LastSafePosition();
+            msg.x = x;
+            msg.y = y;
+
+            if (msg != null) ref.sendTCP(msg);
         }
 
         @Override

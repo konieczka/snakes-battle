@@ -2,25 +2,30 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6e7a3191-327e-45d8-bcbb-34419646f56b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Network.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WezykiGame.iml" beforeDir="false" afterPath="$PROJECT_DIR$/WezykiGame.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/WezykiGame/Client.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/WezykiGame/ClientHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/characters/green" beforeDir="false" afterPath="$PROJECT_DIR$/characters/green" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/characters/test" beforeDir="false" afterPath="$PROJECT_DIR$/characters/test" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/WezykiGame/Display.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/WezykiGame/Display.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/WezykiGame/GameData.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/WezykiGame/GameData.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/WezykiGame/Gameplay.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/WezykiGame/Gameplay.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/WezykiGame/PositionRegistry.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/WezykiGame/PositionRegistry.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/WezykiGame/Server.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/WezykiGame/cNotification.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Client.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ClientHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/WezykiGame/GameClient$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/WezykiGame/GameClient$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/WezykiGame/GameClient$UI.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/WezykiGame/GameClient$UI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/WezykiGame/GameClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/WezykiGame/GameClient.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/WezykiGame/GameServer$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/WezykiGame/GameServer$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/WezykiGame/GameServer$SnakeConnection.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/WezykiGame/GameServer$SnakeConnection.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/WezykiGame/GameServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/WezykiGame/GameServer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/WezykiGame/Network$AddSnake.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/WezykiGame/Network$AddSnake.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/WezykiGame/Network$Login.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/WezykiGame/Network$Login.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/WezykiGame/Network$MoveSnake.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/WezykiGame/Network$MoveSnake.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/WezykiGame/Network$Register.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/WezykiGame/Network$Register.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/WezykiGame/Network$RegistrationRequired.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/WezykiGame/Network$RegistrationRequired.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/WezykiGame/Network$RemoveSnake.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/WezykiGame/Network$RemoveSnake.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/WezykiGame/Network$UpdateSnake.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/WezykiGame/Network$UpdateSnake.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/WezykiGame/Network.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/WezykiGame/Network.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/WezykiGame/Snake.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/WezykiGame/Snake.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Display.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Display.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GameData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Gameplay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Gameplay.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PositionRegistry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PositionRegistry.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Server.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cNotification.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GameClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GameServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Network.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Network.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Snake.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Snake.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -41,6 +46,7 @@
   <component name="ProjectId" id="1WTmGwg0QI66NGO23gglZ4lz5Hv" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="Downloaded.Files.Path.Enabled" value="false" />
     <property name="Repository.Attach.Annotations" value="false" />
     <property name="Repository.Attach.JavaDocs" value="false" />

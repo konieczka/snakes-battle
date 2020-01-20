@@ -7,7 +7,7 @@ public class Network {
     static public final int portUDP = 6000;
 
     // This registers objects that are going to be sent over the network.
-    static public void register (EndPoint endPoint) {
+    static public void register(EndPoint endPoint) {
         Kryo kryo = endPoint.getKryo();
         kryo.register(Login.class);
         kryo.register(RegistrationRequired.class);
@@ -17,6 +17,8 @@ public class Network {
         kryo.register(RemoveSnake.class);
         kryo.register(Snake.class);
         kryo.register(MoveSnake.class);
+        kryo.register(SnakeDed.class);
+        kryo.register(LastSafePosition.class);
     }
 
     static public class Login {
@@ -33,6 +35,7 @@ public class Network {
     static public class UpdateSnake {
         public int id;
         public float x, y;
+        public int ded;
     }
 
     static public class AddSnake {
@@ -43,7 +46,15 @@ public class Network {
         public int id;
     }
 
+    static public class LastSafePosition {
+        public float x, y;
+    }
+
     static public class MoveSnake {
         public float x, y;
+    }
+
+    static public class SnakeDed {
+        public int ded;
     }
 }
